@@ -48,21 +48,23 @@ var detectNetwork = function(cardNumber) {
 
   // Detect Discover
   discoverPrefixes = ['6011', '644', '645', '646', '647', '648', '649', '65'];
-  var discoverPrefixesFiltered = discoverPrefixes.filter((x) => x === cardNumber.slice(0,2));
-  if (discoverPrefixesFiltered.length > 0) {
-  	discoverLengths = [16, 19];
-  	discoverLengthsFiltered = discoverLengths.filter((x) => x === cardNumber.length);
-  	if (discoverLengthsFiltered.length > 0) {
-  		return 'Discover';
+  for (var i = 0; i < discoverPrefixes.length; i++) {
+    if (discoverPrefixes[i] === cardNumber.slice(0, discoverPrefixes[i].length)) {
+  		discoverLengths = [16, 19];
+  		discoverLengthsFiltered = discoverLengths.filter((x) => x === cardNumber.length);
+  		if (discoverLengthsFiltered.length > 0) {
+        return 'Discover';
+  		}
   	}
   }
-
+  
   // Detect Maestro
   maestroPrefixes = ['5018', '5020', '5038', '6304'];
   var maestroPrefixesFiltered = maestroPrefixes.filter((x) => x === cardNumber.slice(0,4));
   if (maestroPrefixesFiltered.length > 0) {
   	maestroLengths = [12, 13, 14, 15, 16, 17, 18, 19];
-  	if (maestroLengths.filter((x) => x === cardNumber.length)) {
+  	maestroLengthsFiltered = maestroLengths.filter((x) => x === cardNumber.length);
+  	if (maestroLengthsFiltered.length > 0) {
   		return 'Maestro';
   	}
   }
