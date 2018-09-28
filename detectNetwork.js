@@ -43,4 +43,22 @@ var detectNetwork = function(cardNumber) {
   		return 'MasterCard';
   	}
   }
+
+  // Detect Discover
+  discoverPrefixes = [6011, 644, 645, 646, 647, 648, 649, 65];
+  if (discoverPrefixes.filter((x) => x === cardNumber.slice(0,2))) {
+  	discoverLengths = [16, 19];
+  	if (discoverLengths.filter((x) => x === cardNumber.length)) {
+  		return 'Discover';
+  	}
+  }
+
+  // Detect Maestro
+  maestroPrefixes = [5018, 5020, 5038, 6304];
+  if (maestroPrefixes.filter((x) => x === cardNumber.slice(0,2))) {
+  	maestroLengths = [12, 13, 14, 15, 16, 17, 18, 19];
+  	if (maestroLengths.filter((x) => x === cardNumber.length)) {
+  		return 'Maestro';
+  	}
+  }
 };
