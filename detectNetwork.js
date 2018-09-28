@@ -14,18 +14,33 @@ var detectNetwork = function(cardNumber) {
 
   // Once you've read this, go ahead and try to implement this function, then return to the console.
 
-
+  // Detect Diner's Club
   if (cardNumber.slice(0, 2) === '38' || cardNumber.slice(0, 2) === '39') {
   	if (cardNumber.length === 14) {
   		return 'Diner\'s Club';
   	}
   }
 
+  // Detect American Express
   else if (cardNumber.slice(0, 2) === '34' || cardNumber.slice(0, 2) === '37') {
   	if (cardNumber.length === 15) {
   		return 'American Express';
   	}
   }
+
+  // Detect Visa
+  else if (cardNumber[0] === '4') {
+  	visaLengths = [13, 16, 19];
+  	if (visaLengths.filter((x) => x === cardNumber.length)) {
+  		return 'Visa';
+  	}
+  }
+
+  // Detect MasterCard
+  masterCardPrefixes = [51, 52, 53, 54, 55];
+  if (masterCardPrefixes.filter((x) => x === cardNumber.slice(0,2))) {
+  	if (cardNumber.length === 16) {
+  		return 'MasterCard';
+  	}
+  }
 };
-
-
