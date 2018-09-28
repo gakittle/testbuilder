@@ -64,7 +64,7 @@ describe('American Express', function() {
   // It can get annoying to keep typing the if/throw, so here is a
   // helper function to throw an error if the input statement isn't true. 
   var assert = function(isTrue) {
-    if(isTrue) {
+    if(!isTrue) {
       throw new Error('Test failed');
     }
  
@@ -135,19 +135,71 @@ describe('MasterCard', function() {
  
   it('has a prefix of 55 and a length of 16', function() {
     detectNetwork('5512345678901234').should.equal('MasterCard');
-  })
+  });
  
 });
 
 describe('Discover', function() {
+  var should = chai.should();
   // Tests without a function will be marked as "pending" and not run
   // Implement these tests (and others) and make them pass!
-  it('has a prefix of 6011 and a length of 16');
-  it('has a prefix of 6011 and a length of 19');
+  it('has a prefix of 6011 and a length of 16', function() {
+    detectNetwork('6011123456789012').should.equal('Discover');
+  });
+
+  it('has a prefix of 6011 and a length of 19', function() {
+    detectNetwork('6011123456789012345').should.equal('Discover');
+  });
+
+  it('has a prefix of 65 and a length of 16', function() {
+    detectNetwork('6512345678901234').should.equal('Discover');
+  });
+
+  it('has a prefix of 65 and a length of 19', function() {
+    detectNetwork('6512345678901234567').should.equal('Discover');
+  });
+
+  for (var prefix = 644; prefix <= 649; prefix++) {
+    var stringPrefix = prefix.toString();
+    (function(stringPrefix) {
+      it('has a prefix of ' + stringPrefix + ' and a length of 16', function() {
+        detectNetwork(stringPrefix + '1234567890123').should.equal('Discover');
+      });
+
+      it('has a prefix of ' + stringPrefix + ' and a length of 19', function() {
+        detectNetwork(stringPrefix + '1234567890123456').should.equal('Discover');
+      });
+    })(prefix)
+  }
 });
 
 describe('Maestro', function() {
-  // Write full test coverage for the Maestro card
+  var should = chai.should();
+
+  for (var length = 12; length <= 19; length++) {
+    var stringLength = length.toString();
+    var randomDigits = '';
+    for (var i = 1; i <= length - 4; i++) {
+      randomDigits += Math.round(Math.random() * 10 - 0.5).toString();
+    }
+    (function(stringLength) {
+      it('has a prefix of 5018 and a length of ' + stringLength, function() {
+        detectNetwork('5018' + randomDigits).should.equal('Maestro');
+      });
+
+      it('has a prefix of 5020 and a length of ' + stringLength, function() {
+        detectNetwork('5020' + randomDigits).should.equal('Maestro');
+      });
+
+      it('has a prefix of 5038 and a length of ' + stringLength, function() {
+        detectNetwork('5038' + randomDigits).should.equal('Maestro');
+      });
+
+      it('has a prefix of 6304 and a length of ' + stringLength, function() {
+        detectNetwork('6304' + randomDigits).should.equal('Maestro');
+      });
+    })(length)
+  }
 });
 
 describe('should support China UnionPay')
