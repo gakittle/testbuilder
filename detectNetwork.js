@@ -31,31 +31,36 @@ var detectNetwork = function(cardNumber) {
   // Detect Visa
   else if (cardNumber[0] === '4') {
   	visaLengths = [13, 16, 19];
-  	if (visaLengths.filter((x) => x === cardNumber.length)) {
+  	var visaLengthsFiltered = visaLengths.filter((x) => x === cardNumber.length);
+  	if (visaLengthsFiltered.length > 0) {
   		return 'Visa';
   	}
   }
 
   // Detect MasterCard
-  masterCardPrefixes = [51, 52, 53, 54, 55];
-  if (masterCardPrefixes.filter((x) => x === cardNumber.slice(0,2))) {
+  masterCardPrefixes = ['51', '52', '53', '54', '55'];
+  var masterCardPrefixesFiltered = masterCardPrefixes.filter((x) => x === cardNumber.slice(0,2));
+  if (masterCardPrefixesFiltered.length > 0) {
   	if (cardNumber.length === 16) {
   		return 'MasterCard';
   	}
   }
 
   // Detect Discover
-  discoverPrefixes = [6011, 644, 645, 646, 647, 648, 649, 65];
-  if (discoverPrefixes.filter((x) => x === cardNumber.slice(0,2))) {
+  discoverPrefixes = ['6011', '644', '645', '646', '647', '648', '649', '65'];
+  var discoverPrefixesFiltered = discoverPrefixes.filter((x) => x === cardNumber.slice(0,2));
+  if (discoverPrefixesFiltered.length > 0) {
   	discoverLengths = [16, 19];
-  	if (discoverLengths.filter((x) => x === cardNumber.length)) {
+  	discoverLengthsFiltered = discoverLengths.filter((x) => x === cardNumber.length);
+  	if (discoverLengthsFiltered.length > 0) {
   		return 'Discover';
   	}
   }
 
   // Detect Maestro
-  maestroPrefixes = [5018, 5020, 5038, 6304];
-  if (maestroPrefixes.filter((x) => x === cardNumber.slice(0,2))) {
+  maestroPrefixes = ['5018', '5020', '5038', '6304'];
+  var maestroPrefixesFiltered = maestroPrefixes.filter((x) => x === cardNumber.slice(0,4));
+  if (maestroPrefixesFiltered.length > 0) {
   	maestroLengths = [12, 13, 14, 15, 16, 17, 18, 19];
   	if (maestroLengths.filter((x) => x === cardNumber.length)) {
   		return 'Maestro';
