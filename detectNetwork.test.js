@@ -105,18 +105,17 @@ describe('MasterCard', function() {
   // Expect syntax is one way to do this, but there are others. 
   // If you want to know more, check out the documentation. 
   //   http://chaijs.com/api/bdd/
-  var expect = chai.expect;
- 
+
   it('has a prefix of 51 and a length of 16', function() {
-    expect(detectNetwork('5112345678901234')).to.equal('MasterCard');
+    detectNetwork('5112345678901234').should.equal('MasterCard');
   });
  
   it('has a prefix of 52 and a length of 16', function() {
-    expect(detectNetwork('5212345678901234')).to.equal('MasterCard');
+    detectNetwork('5212345678901234').should.equal('MasterCard');
   });
  
   it('has a prefix of 53 and a length of 16', function() {
-    expect(detectNetwork('5312345678901234')).to.equal('MasterCard');
+    detectNetwork('5312345678901234').should.equal('MasterCard');
   });
  
 
@@ -176,29 +175,35 @@ describe('Discover', function() {
 describe('Maestro', function() {
   var should = chai.should();
 
-  for (var length = 12; length <= 19; length++) {
-    var stringLength = length.toString();
-    var randomDigits = '';
-    for (var i = 1; i <= length - 4; i++) {
-      randomDigits += Math.round(Math.random() * 10 - 0.5).toString();
-    }
-    (function(stringLength) {
-      it('has a prefix of 5018 and a length of ' + stringLength, function() {
-        detectNetwork('5018' + randomDigits).should.equal('Maestro');
-      });
+  var pre = ['5018', '5020', '5038', '6304'];
 
-      it('has a prefix of 5020 and a length of ' + stringLength, function() {
-        detectNetwork('5020' + randomDigits).should.equal('Maestro');
+  for (var i = 0; i < pre.length; i++) {
+    (function(i) {
+      it('has a prefix of ' + pre[i] + ' and a length of 12', function() {
+        detectNetwork(pre[i] + '12345678').should.equal('Maestro');
       });
-
-      it('has a prefix of 5038 and a length of ' + stringLength, function() {
-        detectNetwork('5038' + randomDigits).should.equal('Maestro');
+      it('has a prefix of ' + pre[i] + ' and a length of 13', function() {
+        detectNetwork(pre[i] + '123456789').should.equal('Maestro');
       });
-
-      it('has a prefix of 6304 and a length of ' + stringLength, function() {
-        detectNetwork('6304' + randomDigits).should.equal('Maestro');
+      it('has a prefix of ' + pre[i] + ' and a length of 14', function() {
+        detectNetwork(pre[i] + '1234567890').should.equal('Maestro');
       });
-    })(length)
+      it('has a prefix of ' + pre[i] + ' and a length of 15', function() {
+        detectNetwork(pre[i] + '12345678901').should.equal('Maestro');
+      });
+      it('has a prefix of ' + pre[i] + ' and a length of 16', function() {
+        detectNetwork(pre[i] + '123456789012').should.equal('Maestro');
+      });
+      it('has a prefix of ' + pre[i] + ' and a length of 17', function() {
+        detectNetwork(pre[i] + '1234567890123').should.equal('Maestro');
+      });
+      it('has a prefix of ' + pre[i] + ' and a length of 18', function() {
+        detectNetwork(pre[i] + '12345678901234').should.equal('Maestro');
+      });
+      it('has a prefix of ' + pre[i] + ' and a length of 19', function() {
+        detectNetwork(pre[i] + '123456789012345').should.equal('Maestro');
+      });
+    })(i)
   }
 });
 
