@@ -207,8 +207,32 @@ describe('Maestro', function() {
   }
 });
 
-describe('should support China UnionPay')
+describe('China UnionPay', function() {
+  var should = chai.should();
+  var lowerBounds = [622126, 624, 6282];
+  var upperBounds = [622925, 626, 6288];
+  var randomDigits = '12345678901234567890';
 
+  for (var bound = 0; bound <= 2; bound++) {
+    for (var num = lowerBounds[bound]; num <= upperBounds[bound]; num++) {
+      var pre = num.toString();
+      (function(pre) {
+        it('has a prefix of ' + pre + ' and a length of 16', function() {
+          detectNetwork(pre + randomDigits.slice(0, 16 - pre.length)).should.equal('China UnionPay');
+        });
+        it('has a prefix of ' + pre + ' and a length of 17', function() {
+          detectNetwork(pre + randomDigits.slice(0, 17 - pre.length)).should.equal('China UnionPay');
+        });
+        it('has a prefix of ' + pre + ' and a length of 18', function() {
+          detectNetwork(pre + randomDigits.slice(0, 18 - pre.length)).should.equal('China UnionPay');
+        });
+        it('has a prefix of ' + pre + ' and a length of 19', function() {
+          detectNetwork(pre + randomDigits.slice(0, 19 - pre.length)).should.equal('China UnionPay');
+        });
+      })(pre)
+    }
+  }
+});
 
 describe('Switch', function() {
   var should = chai.should();
