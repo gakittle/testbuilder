@@ -30,7 +30,7 @@ var detectNetwork = function(cardNumber) {
 
   // Detect Visa
   else if (cardNumber[0] === '4') {
-  	visaLengths = [13, 16, 19];
+  	var visaLengths = [13, 16, 19];
   	var visaLengthsFiltered = visaLengths.filter((x) => x === cardNumber.length);
   	if (visaLengthsFiltered.length > 0) {
   		return 'Visa';
@@ -38,7 +38,7 @@ var detectNetwork = function(cardNumber) {
   }
 
   // Detect MasterCard
-  masterCardPrefixes = ['51', '52', '53', '54', '55'];
+  var masterCardPrefixes = ['51', '52', '53', '54', '55'];
   var masterCardPrefixesFiltered = masterCardPrefixes.filter((x) => x === cardNumber.slice(0,2));
   if (masterCardPrefixesFiltered.length > 0) {
   	if (cardNumber.length === 16) {
@@ -50,8 +50,8 @@ var detectNetwork = function(cardNumber) {
   discoverPrefixes = ['6011', '644', '645', '646', '647', '648', '649', '65'];
   for (var i = 0; i < discoverPrefixes.length; i++) {
     if (discoverPrefixes[i] === cardNumber.slice(0, discoverPrefixes[i].length)) {
-  		discoverLengths = [16, 19];
-  		discoverLengthsFiltered = discoverLengths.filter((x) => x === cardNumber.length);
+  		var discoverLengths = [16, 19];
+  		var discoverLengthsFiltered = discoverLengths.filter((x) => x === cardNumber.length);
   		if (discoverLengthsFiltered.length > 0) {
         return 'Discover';
   		}
@@ -59,13 +59,33 @@ var detectNetwork = function(cardNumber) {
   }
   
   // Detect Maestro
-  maestroPrefixes = ['5018', '5020', '5038', '6304'];
+  var maestroPrefixes = ['5018', '5020', '5038', '6304'];
   var maestroPrefixesFiltered = maestroPrefixes.filter((x) => x === cardNumber.slice(0,4));
   if (maestroPrefixesFiltered.length > 0) {
-  	maestroLengths = [12, 13, 14, 15, 16, 17, 18, 19];
-  	maestroLengthsFiltered = maestroLengths.filter((x) => x === cardNumber.length);
+  	var maestroLengths = [12, 13, 14, 15, 16, 17, 18, 19];
+  	var maestroLengthsFiltered = maestroLengths.filter((x) => x === cardNumber.length);
   	if (maestroLengthsFiltered.length > 0) {
   		return 'Maestro';
   	}
   }
+
+  // Detect China UnionPay
+  if (Number(cardNumber.slice(0,6)) >= 622126 && Number(cardNumber.slice(0,6)) <= 622925) {
+  	var chinaLengths = [16, 17, 18, 19];
+  	var chinaLengthsFiltered = chinaLengths.filter((x) => x === cardNumber.length);
+  	if (chinaLengthsFiltered.length > 0) {
+  		return 'China UnionPay';
+  	}
+  }
+  var chinaPrefixes = ['624', '625', '626', '6282', '6283', '6284', '6285', '6286', '6287', '6288'];
+  for (var i = 0; i < chinaPrefixes.length; i++) {
+  	if (chinaPrefixes[i] === cardNumber.slice(0, chinaPrefixes[i].length)) {
+  		var chinaLengths = [16, 17, 18, 19];
+  		var chinaLengthsFiltered = chinaLengths.filter((x) => x === cardNumber.length);
+  		if (chinaLengthsFiltered.length > 0) {
+  			return 'China UnionPay';
+  		}
+  	}
+  }
+  var chinaPrefixesFiltered = chinaPrefixes.filter((x) => cardNumber.slice())
 };
