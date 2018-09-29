@@ -14,6 +14,20 @@ var detectNetwork = function(cardNumber) {
 
   // Once you've read this, go ahead and try to implement this function, then return to the console.
 
+
+  // Detect Switch
+  var switchPrefixesFour = ['4903', '4905', '4911', '4936', '6333', '6759'];
+  var switchPrefixesSix = ['564182', '633110'];
+  var switchPrefixesFourFilterd = switchPrefixesFour.filter((x) => x === cardNumber.slice(0,4));
+  var switchPrefixesSixFilterd = switchPrefixesSix.filter((x) => x === cardNumber.slice(0,6));
+  if (switchPrefixesFourFilterd.length > 0 || switchPrefixesSixFilterd.length > 0) {
+  	var switchLengths = [16, 18, 19];
+  	var switchLengthsFiltered = switchLengths.filter((x) => x === cardNumber.length);
+  	if (switchLengthsFiltered.length > 0) {
+  		return 'Switch';
+  	}
+  }
+
   // Detect Diner's Club
   if (cardNumber.slice(0, 2) === '38' || cardNumber.slice(0, 2) === '39') {
   	if (cardNumber.length === 14) {
@@ -87,5 +101,4 @@ var detectNetwork = function(cardNumber) {
   		}
   	}
   }
-  var chinaPrefixesFiltered = chinaPrefixes.filter((x) => cardNumber.slice())
 };
